@@ -8,12 +8,13 @@ import { loadConfig, printConfig } from "./config.js";
 import { printHistory, clearHistory } from "./history.js";
 import { copyToClipboard } from "./clipboard.js";
 import { upgrade } from "./upgrade.js";
+import { runGarbageCollection } from "./gc.js";
 
 const program = new Command();
 
 program
   .name("tmp-git-clone")
-  .description("Clone git repositories to /tmp using shallow clone")
+  .description("Clone git repositories for quick exploration")
   .version("1.0.0");
 
 // Default clone command
@@ -24,6 +25,12 @@ program
   .option("-q, --quiet", "Suppress verbose output")
   .option("-c, --copy", "Copy path to clipboard after clone")
   .action(async (url: string | undefined, options: { depth: string; branch?: string; quiet?: boolean; copy?: boolean }) => {
+    // Run garbage collection before any operation
+    const gcResult = runGarbageCollection();
+    if (gcResult.removed.length > 0 && !options.quiet) {
+      console.log(`Cleaned up ${gcResult.removed.length} old clone(s)`);
+    }
+
     if (!url) {
       program.help();
       return;
@@ -85,8 +92,11 @@ program
 // List subcommand
 program
   .command("list")
-  .description("List cloned repositories in /tmp")
+  .description("List cloned repositories")
   .action(() => {
+    // Run GC silently before listing
+    runGarbageCollection();
+
     if (!existsSync(BASE_DIR)) {
       console.log("No cloned repositories.");
       return;

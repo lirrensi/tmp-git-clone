@@ -1,13 +1,24 @@
 # tmp-git-clone
 
-A visually polished CLI tool for quickly cloning git repositories to `/tmp` for exploration.
+A CLI tool for quickly cloning git repositories for exploration.
+
+> **Fork of [wdavidturner/tmp-git-clone](https://github.com/wdavidturner/tmp-git-clone)** with cross-platform support and enhancements.
+
+## What's New in This Fork
+
+| Feature | Description |
+|---------|-------------|
+| **Cross-platform** | Works on Windows, macOS, and Linux (uses `~/.tmp-git-clone` everywhere) |
+| **npx git install** | `npx github:lirrensi/tmp-git-clone` — no manual install needed |
+| **Auto garbage collection** | Clones older than 3 days are automatically cleaned up |
+| **AI Skill** | Included skill for agent integration |
 
 ## Features
 
 - **GitHub shorthand** - `rails/rails` expands to `https://github.com/rails/rails`
 - **Shallow clone** (`--depth 1`) for fast downloads
 - **Branch support** - clone specific branches with `-b`
-- **Organized storage** at `/tmp/tmp-git-clone/{owner}/{repo}`
+- **Organized storage** at `~/.tmp-git-clone/{owner}/{repo}`
 - **Beautiful UI** with animated spinners and progress tracking
 - **Real-time progress** parsing (Counting → Compressing → Receiving)
 - **Auto-cleanup** - re-cloning removes existing directory first
@@ -18,39 +29,26 @@ A visually polished CLI tool for quickly cloning git repositories to `/tmp` for 
 
 ## Installation
 
-### Quick Install
+### npx (Recommended)
+
+No installation required — run directly from GitHub:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/wdavidturner/tmp-git-clone/main/install.sh | bash
+npx github:lirrensi/tmp-git-clone rails/rails
 ```
 
-This installs to `~/.local/share/tmp-git-clone` and creates a symlink at `~/.local/bin/tmp-git-clone`.
+Works on Windows, macOS, and Linux. The `prepare` script auto-builds on first run.
 
-Make sure `~/.local/bin` is in your PATH:
+### npm install -g
 
 ```bash
-export PATH="$HOME/.local/bin:$PATH"
+npm install -g github:lirrensi/tmp-git-clone
 ```
 
-### Manual Install
+Then use anywhere:
 
 ```bash
-# Clone this repo
-git clone https://github.com/wdavidturner/tmp-git-clone.git
-cd tmp-git-clone
-
-# Install dependencies and build
-npm install
-npm run build
-
-# Link globally
-npm link
-```
-
-### Uninstall
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/wdavidturner/tmp-git-clone/main/uninstall.sh | bash
+tmp-git-clone rails/rails
 ```
 
 ## Usage
@@ -96,7 +94,7 @@ The tool provides a clean, boxed output with real-time progress:
 │                                                │
 │  ✔ Cloned successfully                         │
 │                                                │
-│  → /tmp/tmp-git-clone/rails/rails              │
+│  → ~/.tmp-git-clone/rails/rails                 │
 │                                                │
 ╰────────────────────────────────────────────────╯
 ```
@@ -122,8 +120,8 @@ To skip permission prompts, add this to your `~/.claude/settings.json`:
   "permissions": {
     "allow": [
       "Bash(tmp-git-clone:*)",
-      "Glob(/tmp/tmp-git-clone/**)",
-      "Read(/tmp/tmp-git-clone/**)"
+      "Glob(~/.tmp-git-clone/**)",
+      "Read(~/.tmp-git-clone/**)"
     ]
   }
 }
@@ -189,7 +187,7 @@ All commands will:
 
 | Command | Description |
 |---------|-------------|
-| `tmp-git-clone list` | List all cloned repositories in `/tmp/tmp-git-clone` |
+| `tmp-git-clone list` | List all cloned repositories in `~/.tmp-git-clone` |
 | `tmp-git-clone clean` | Remove all cloned repositories (use `--yes` to skip confirmation) |
 | `tmp-git-clone history` | Show clone history (use `--clear` to clear) |
 | `tmp-git-clone config` | Show current configuration |
@@ -244,10 +242,11 @@ CLI flags always override config file settings.
 
 Clone history is stored at `~/.tmp-git-clone/history.json`. The tool tracks the last 50 cloned repositories with timestamps.
 
-## Why `/tmp`?
+## Why `~/.tmp-git-clone`?
 
-- Fast SSD-backed storage on most systems
-- Auto-cleaned on reboot
+- Persistent across reboots (unlike /tmp)
+- Easy to find and navigate
+- Automatic cleanup of old clones (3 days)
 - Keeps your workspace uncluttered
 - Perfect for quick code exploration
 

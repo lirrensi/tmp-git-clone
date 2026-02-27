@@ -1,8 +1,9 @@
 import { existsSync, mkdirSync, rmSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { join } from "node:path";
+import { homedir } from "node:os";
 
-export const BASE_DIR = "/tmp/tmp-git-clone";
+export const BASE_DIR = join(homedir(), ".tmp-git-clone");
 
 /**
  * Get the target clone path for a repository.
