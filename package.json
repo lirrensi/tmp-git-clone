@@ -8,9 +8,9 @@
     "tmp-git-clone": "./dist/index.js"
   },
 "scripts": {
-    "build": "tsc",
-    "prepare": "npm install && npm run build",
-    "dev": "tsc --watch",
+    "build": "npx tsc",
+    "prepare": "npx tsc",
+    "dev": "npx tsc --watch",
     "start": "node dist/index.js"
   },
   "engines": {
@@ -30,10 +30,10 @@
   "dependencies": {
     "commander": "^13.0.0",
     "picocolors": "^1.1.1",
+    "typescript": "^5.7.0",
     "yocto-spinner": "^1.0.0"
   },
   "devDependencies": {
-    "@types/node": "^22.0.0",
-    "typescript": "^5.7.0"
+    "@types/node": "^22.0.0"
   }
 }
