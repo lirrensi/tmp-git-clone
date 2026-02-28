@@ -8,9 +8,9 @@
     "tmp-git-clone": "./dist/index.js"
   },
 "scripts": {
-    "build": "npx tsc",
-    "prepare": "npx tsc",
-    "dev": "npx tsc --watch",
+    "build": "node ./node_modules/typescript/bin/tsc",
+    "prepare": "node ./node_modules/typescript/bin/tsc",
+    "dev": "node ./node_modules/typescript/bin/tsc --watch",
     "start": "node dist/index.js"
   },
   "engines": {
