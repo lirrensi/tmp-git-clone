@@ -39,7 +39,13 @@ npx github:lirrensi/tmp-git-clone rails/rails
 
 Works on Windows, macOS, and Linux. The `prepare` script auto-builds on first run.
 
-### npm install -g
+### pnpm (global)
+
+```bash
+pnpm config set dangerouslyAllowAllBuilds true --global && pnpm install -g github:lirrensi/tmp-git-clone
+```
+
+### npm (global)
 
 ```bash
 npm install -g github:lirrensi/tmp-git-clone
