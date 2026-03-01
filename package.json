@@ -8,9 +8,9 @@
     "tmp-git-clone": "./dist/index.js"
   },
 "scripts": {
-    "build": "node ./node_modules/typescript/bin/tsc",
-    "postinstall": "node ./node_modules/typescript/bin/tsc",
-    "dev": "node ./node_modules/typescript/bin/tsc --watch",
+    "build": "tsc",
+    "postinstall": "tsc",
+    "dev": "tsc --watch",
     "start": "node dist/index.js"
   },
   "engines": {
