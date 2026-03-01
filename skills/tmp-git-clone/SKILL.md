@@ -1,6 +1,6 @@
 ---
 name: tmp-git-clone
-description: CLI tool for quickly cloning git repositories for exploration and reference. Use when needing to: (1) Clone a repo to examine its code, (2) Look up documentation from a source repo, (3) Explore a codebase structure, (4) Get reference implementations from open source projects. Supports GitHub shorthand (owner/repo), shallow clones, branch selection, and auto-cleanup.
+description: Clone git repos to a temp folder for quick exploration. Use when you need to examine a codebase, look up docs, or explore repo structure.
 ---
 
 # tmp-git-clone
