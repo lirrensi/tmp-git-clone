@@ -17,7 +17,9 @@
     "node": ">=18.0.0"
   },
   "files": [
-    "dist"
+    "dist",
+    "src",
+    "tsconfig.json"
   ],
   "keywords": [
     "git",
@@ -28,12 +30,10 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "@types/node": "^22.0.0",
     "commander": "^13.0.0",
     "picocolors": "^1.1.1",
     "typescript": "^5.7.0",
     "yocto-spinner": "^1.0.0"
-  },
-  "devDependencies": {
-    "@types/node": "^22.0.0"
   }
 }
