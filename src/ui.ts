@@ -66,13 +66,15 @@ export interface UI {
   showHeader(parsed: ParsedGitUrl): void;
   showInfo(message: string): void;
   showResult(success: boolean, path: string): void;
-  startSpinner(text: string): Spinner;
-  spinnerSuccess(spinner: Spinner): void;
-  spinnerError(spinner: Spinner): void;
+  startSpinner(text: string): Spinner | null;
+  spinnerSuccess(spinner: Spinner | null): void;
+  spinnerError(spinner: Spinner | null): void;
 }
 
 export function createUI(verbose: boolean): UI | null {
   if (!verbose) return null;
+
+  const isInteractive = Boolean(process.stdin.isTTY && process.stdout.isTTY);
 
   return {
     showHeader(parsed: ParsedGitUrl): void {
@@ -113,16 +115,21 @@ export function createUI(verbose: boolean): UI | null {
       console.log("");
     },
 
-    startSpinner(text: string): Spinner {
+    startSpinner(text: string): Spinner | null {
+      if (!isInteractive) {
+        console.log(`  ${pc.dim(symbols.arrow)} ${text}`);
+        return null;
+      }
+
       return yoctoSpinner({ text }).start();
     },
 
-    spinnerSuccess(spinner: Spinner): void {
-      spinner.stop();
+    spinnerSuccess(spinner: Spinner | null): void {
+      spinner?.stop();
     },
 
-    spinnerError(spinner: Spinner): void {
-      spinner.stop();
+    spinnerError(spinner: Spinner | null): void {
+      spinner?.stop();
     },
   };
 }

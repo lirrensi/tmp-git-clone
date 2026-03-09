@@ -30,7 +30,11 @@ function executeGitClone(
   spinner: Spinner | null
 ): Promise<string | null> {
   return new Promise((resolve, reject) => {
-    const args = ["clone", "--depth", String(depth), "--progress"];
+    const args = ["clone", "--depth", String(depth)];
+
+    if (spinner) {
+      args.push("--progress");
+    }
 
     if (branch) {
       args.push("--branch", branch);
@@ -117,15 +121,13 @@ export async function cloneRepository(
     ui?.showInfo("Removed existing directory");
   }
 
-  // Clone with spinner
-  const spinner = ui?.startSpinner("Cloning...") ?? null;
+  // Clone with spinner when running interactively; otherwise log once.
+  const spinner = ui?.startSpinner(`Cloning ${parsed.owner}/${parsed.repoName}...`) ?? null;
 
   try {
     await executeGitClone(url, targetPath, depth, branch, spinner);
 
-    if (spinner) {
-      ui?.spinnerSuccess(spinner);
-    }
+    ui?.spinnerSuccess(spinner);
     ui?.showResult(true, targetPath);
 
     // Track in history
@@ -139,9 +141,7 @@ export async function cloneRepository(
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : "Clone failed";
 
-    if (spinner) {
-      ui?.spinnerError(spinner);
-    }
+    ui?.spinnerError(spinner);
     ui?.showResult(false, errorMessage);
 
     return {
